@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "noImplicitAny": false,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "experimentalDecorators": true,
+      "sourceMap": false,
+      "moduleResolution": "node",
+      "skipLibCheck": true,
+      "outDir": "dist"
+  }
+}
