@@ -1,38 +1,45 @@
 import { LitElement, html, property } from '@polymer/lit-element'
-import Localize from './localize'
+import { installRouter } from 'pwa-helpers/router.js'
 
-import AgentForm from './agent-form.js'
-customElements.define('agent-form', AgentForm)
+import connect from './store'
+
+import './views/add-agent.js'
 
 
-class AppShell extends LitElement {
-  private currentLanguage: string
+class AppShell extends connect(LitElement) {
+
+  @property({ type: String })
+  private view :string
 
   @property({ type: Object })
-  labels: any
+  labels :any
 
-  get language () :string {
-    return this.currentLanguage
+  firstUpdated () {
+    installRouter((location) => {
+      if (location.pathname === '/') {
+        this.view = 'transactions'
+      } else {
+        this.view = location.pathname.substring(1)
+      }
+    })
   }
 
-  set language (lang: string) {
-    this.currentLanguage = lang
-    const l = Localize(lang)
-    this.labels = {
-      name: l('name')
-    }
-  }
-
-  constructor () {
-    super()
-    this.language = 'en'
+  _stateChanged (state) {
+    this.labels = state.labels
   }
 
   render () {
+    const { labels, view } = this
     return html`
-      <agent-form
-        .labels=${this.labels}
-      ></agent-form 
+      <style>@import 'app-shell.css'</style>
+      <ul>
+        <li><a href="add-agent">${labels['add new']}</a>
+      </ul>
+      <add-agent
+         class="view"
+         ?active="${view === 'add-agent'}"
+        .labels=${labels}
+      ></add-agent 
     `
   }
 }

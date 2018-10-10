@@ -9,6 +9,7 @@
       "sourceMap": false,
       "moduleResolution": "node",
       "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
       "outDir": "dist"
   }
 }
