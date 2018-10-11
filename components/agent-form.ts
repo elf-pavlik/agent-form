@@ -13,14 +13,31 @@ export default class AgentForm extends LitElement {
 
   }
 
+  constructor () {
+    super()
+    this.addEventListener('input', (event) => {
+      this.requestUpdate()
+    })
+  }
+
   get data () :any {
-    return {
-      name: this.fields.name._component.value
-    }
+    return this. computeData()
   }
 
   set data (data :any) {
-    if (data.name) this.fields.name.value = data.name
+    if (this.fields.name && data.name !== undefined) this.fields.name.value = data.name
+  }
+
+  private computeData () {
+    return {
+      name: this.fields.name ? this.fields.name.value : ''
+    }
+  }
+
+  reset () {
+    this.data = {
+      name: ''
+    }
   }
 
   render () {
@@ -34,5 +51,3 @@ export default class AgentForm extends LitElement {
     `
   }
 }
-
-customElements.define('agent-form', AgentForm)
