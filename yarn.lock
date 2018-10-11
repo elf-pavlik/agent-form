@@ -595,6 +595,29 @@
     "@material/theme" "^0.40.1"
     "@material/typography" "^0.40.1"
 
+"@material/checkbox@^0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@material/checkbox/-/checkbox-0.35.0.tgz#a9bc5d09f75d2cbd2f2cb450561946430b2f8c77"
+  integrity sha512-pR2F05qd+QH3sWk/HK435oLtbLl7VyQ1hXVtpC7RE++WuvCI0P1TN2OyDl8/KLAJU7i8nsVOGrtijeUsS8on5w==
+  dependencies:
+    "@material/animation" "^0.34.0"
+    "@material/base" "^0.35.0"
+    "@material/ripple" "^0.35.0"
+    "@material/rtl" "^0.35.0"
+    "@material/selection-control" "^0.35.0"
+    "@material/theme" "^0.35.0"
+
+"@material/chips@^0.35.0":
+  version "0.35.1"
+  resolved "https://registry.yarnpkg.com/@material/chips/-/chips-0.35.1.tgz#db8a356929b8723b28e3dd8804517173d5aac201"
+  integrity sha512-nGsOsmhLVZIBhwpG1xqsZSKudYXyVSYN9PfzAnEnVs2WV/mk1LGyizljP7L+IM7O+X9s8s0My/rrtNGmd1poNg==
+  dependencies:
+    "@material/animation" "^0.34.0"
+    "@material/base" "^0.35.0"
+    "@material/checkbox" "^0.35.0"
+    "@material/ripple" "^0.35.0"
+    "@material/typography" "^0.35.0"
+
 "@material/elevation@^0.40.1":
   version "0.40.1"
   resolved "https://registry.yarnpkg.com/@material/elevation/-/elevation-0.40.1.tgz#beb17eb90bde94459c41cd826c2de13f13b10b25"
@@ -622,6 +645,16 @@
     "@material/base" "^0.35.0"
     "@material/theme" "^0.35.0"
 
+"@material/list@^0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@material/list/-/list-0.35.0.tgz#873e0e8596d9aeaee44d4c669f55bd938284b80d"
+  integrity sha512-H8F2ej4nnnKXVV6JmR+i8/aA8wkp/i1uslU6RmNC7+E2aeyEiKdk2xOEuq9JdQjgm4zJyIA6jYSr2CQVVdhBuw==
+  dependencies:
+    "@material/ripple" "^0.35.0"
+    "@material/rtl" "^0.35.0"
+    "@material/theme" "^0.35.0"
+    "@material/typography" "^0.35.0"
+
 "@material/mwc-base@^0.3.1", "@material/mwc-base@file:../../webcomponents/material-components-web-components/packages/base":
   version "0.3.1"
   dependencies:
@@ -640,12 +673,27 @@
     "@polymer/lit-element" "^0.6.2"
     lit-html "^0.12.0"
 
+"@material/mwc-chip@file:../../webcomponents/material-components-web-components/packages/chips":
+  version "0.3.1"
+  dependencies:
+    "@material/chips" "^0.35.0"
+    "@material/mwc-base" "^0.3.1"
+    "@material/mwc-icon" "^0.3.1"
+    "@polymer/lit-element" "^0.6.2"
+
 "@material/mwc-icon@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@material/mwc-icon/-/mwc-icon-0.3.1.tgz#d463b5dc07b4f39c51e8847f82bbb74787d2fd78"
   integrity sha512-T6x8yR6+L39wkHDiHEfqTv312jqR56Ksq5yLZf4sM5dnEztefS9Xv0E/cb+rrRSqwB9bKdPel/NJDyfReFxgUw==
   dependencies:
     "@material/mwc-base" "^0.3.1"
+    "@polymer/lit-element" "^0.6.2"
+
+"@material/mwc-list@file:../../webcomponents/material-components-web-components/packages/list":
+  version "0.3.1"
+  dependencies:
+    "@material/list" "^0.35.0"
+    "@material/mwc-icon" "^0.3.1"
     "@polymer/lit-element" "^0.6.2"
 
 "@material/mwc-ripple@^0.3.1":
@@ -701,6 +749,13 @@
   version "0.40.1"
   resolved "https://registry.yarnpkg.com/@material/rtl/-/rtl-0.40.1.tgz#5b0d973e3c6f8e2ea3656c06ada37ba2fedfa206"
   integrity sha512-Pk6Iw1/KrhWZoZtkDsPMDUW0bm7Z1zeXb3MTQRCFmjf1wU5cRxgOTtuoZLcJqlcKGppLAzJL/TJV3E7KEiuL0A==
+
+"@material/selection-control@^0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@material/selection-control/-/selection-control-0.35.0.tgz#e13640b37f5719f43edc315625ee862f1f3a8302"
+  integrity sha512-Jt94tHuXOBbXwr7KVAj250XB6vVI+v/pKSgmqx7HCNEb7NRCtwxGX//Is6a0C4Oxj6TWQfTlmZbMhV5TswSiJg==
+  dependencies:
+    "@material/ripple" "^0.35.0"
 
 "@material/shape@^0.40.1":
   version "0.40.1"

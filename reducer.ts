@@ -4,7 +4,8 @@ import i18n from './labels.js'
 
 import {
   SET_LANGUAGE,
-  NAVIGATE
+  NAVIGATE,
+  ADD_AGENT
 } from './actions.js'
 
 const initial = {
@@ -41,8 +42,21 @@ function view (state = initial.view, action) {
   }
 }
 
+function agents (state = [], action) {
+  switch(action.type) {
+    case ADD_AGENT:
+      return [
+        Object.assign({}, action.agent),
+        ...state
+      ]
+    default:
+      return state
+  }
+}
+
 export default {
   labels,
   language,
-  view
+  view,
+  agents
 }

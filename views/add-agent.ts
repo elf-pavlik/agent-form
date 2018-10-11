@@ -1,6 +1,8 @@
 import { LitElement, html, property } from '@polymer/lit-element'
 import connect from '../store'
-import { navigate } from '../actions'
+import { navigate, addAgent } from '../actions'
+import '@material/mwc-button'
+import { Button } from '@material/mwc-button'
 
 import AgentForm from '../components/agent-form.js';
 customElements.define('agent-form', AgentForm)
@@ -12,7 +14,6 @@ export default class AddAgent extends connect(LitElement) {
   constructor () {
     super()
     this.addEventListener('input', (event) => {
-      console.log('add-agent')
       this.requestUpdate()
     })
   }
@@ -27,14 +28,21 @@ export default class AddAgent extends connect(LitElement) {
   }
 
   private save () {
+    if (!this.valid) return
+    let button = this.shadowRoot.querySelector('#save') as Button
+    if (button.disabled) return
     let form = this.shadowRoot.querySelector('agent-form') as AgentForm
-    console.log(form.data)
+    addAgent(form.data)
+    form.reset()
+    this.requestUpdate();
+    navigate('agents')
   }
 
   private cancel () {
     let form = this.shadowRoot.querySelector('agent-form') as AgentForm
     form.reset()
-    navigate('add-transaction')
+    this.requestUpdate();
+    navigate('agents')
   }
 
   render () {
@@ -42,10 +50,12 @@ export default class AddAgent extends connect(LitElement) {
     return html`
       <section>
         <mwc-button
+          id="cancel"
           icon="cancel"
           @click=${cancel}
         >${labels['cancel']}</mwc-button>
         <mwc-button
+          id="save"
           unelevated
           icon="check"
           ?disabled=${!valid}

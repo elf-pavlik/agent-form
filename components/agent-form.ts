@@ -15,6 +15,7 @@ export default class AgentForm extends LitElement {
 
   constructor () {
     super()
+    this.reset() // TODO: this prevents passing data property from the host
     this.addEventListener('input', (event) => {
       this.requestUpdate()
     })
@@ -30,12 +31,14 @@ export default class AgentForm extends LitElement {
 
   private computeData () {
     return {
+      type: 'Agent',
       name: this.fields.name ? this.fields.name.value : ''
     }
   }
 
   reset () {
     this.data = {
+      type: 'Agent',
       name: ''
     }
   }

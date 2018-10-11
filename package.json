@@ -17,6 +17,8 @@
     "@material/mwc-base": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/base",
     "@material/mwc-button": "^0.3.1",
     "@material/mwc-textfield": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/textfield",
+    "@material/mwc-list": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/list",
+    "@material/mwc-chip": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/chips",
     "@polymer/lit-element": "^0.6.2",
     "localforage": "^1.7.2",
     "pwa-helpers": "^0.8.4",

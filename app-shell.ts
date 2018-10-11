@@ -4,8 +4,11 @@ import { installRouter } from 'pwa-helpers/router.js'
 import connect from './store'
 import { navigate } from './actions'
 
+import { TransactionTemplate } from './interfaces'
+
 import './views/list-transactions.js'
 import './views/add-transaction.js'
+import './views/list-agents.js'
 import './views/add-agent.js'
 
 
@@ -17,7 +20,17 @@ class AppShell extends connect(LitElement) {
   @property({ type: Object })
   labels :any
 
+  @property({ type: Object })
+  newTransaction :TransactionTemplate
+
   private initialRouteHandled :boolean = false
+
+  constructor () {
+    super()
+    this.newTransaction = {
+      type: 'Transaction'
+    }
+  }
 
   firstUpdated () {
     installRouter((location) => {
@@ -52,21 +65,31 @@ class AppShell extends connect(LitElement) {
     }
   }
 
+  private agentSelected (event) {
+    this.newTransaction = Object.assign({}, this.newTransaction, {agent: event.detail})
+  }
+
   render () {
-    const { labels, view } = this
+    const { view, newTransaction, agentSelected } = this
     return html`
       <style>@import 'app-shell.css'</style>
       <list-transactions
          class="view"
-         ?active="${view === 'transactions'}"
+         ?active=${view === 'transactions'}
       ></list-transactions>
       <add-transaction
          class="view"
-         ?active="${view === 'add-transaction'}"
+         ?active=${view === 'add-transaction'}
+         .transaction=${newTransaction}
       ></add-transaction>
+      <list-agents
+         class="view"
+         ?active=${view === 'agents'}
+         @select=${agentSelected.bind(this)}
+      ></list-agents>
       <add-agent
          class="view"
-         ?active="${view === 'add-agent'}"
+         ?active=${view === 'add-agent'}
       ></add-agent>
     `
   }
