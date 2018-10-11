@@ -10,57 +10,27 @@ import {
   compose
 } from 'redux'
 import { persistStore, persistCombineReducers } from 'redux-persist'
-import storage from 'localforage/src/localforage'
-
 import { connect } from 'pwa-helpers/connect-mixin.js'
-
-import config from './config.js'
-import i18n from './labels.js'
-
-
-const SET_LANGUAGE = 'SET_LANGUAGE'
-
-const initialLabels = i18n[config.language]
-
-function labels (state = initialLabels, action) {
-  switch (action.type) {
-    case SET_LANGUAGE:
-      return i18n[action.language]
-    default:
-      return state
-  }
-}
-
-function language (state = config.language, action) {
-  switch (action.type) {
-    case SET_LANGUAGE:
-      return action.language
-    default:
-      return state
-  }
-} 
+import storage from 'localforage/src/localforage'
+import reducer from './reducer.js'
 
 const persistConfig = {
   key: 'redux',
+  blacklist: ['view'],
   storage
 }
 
-const reducer = persistCombineReducers(persistConfig, {
-  labels,
-  language
-})
+const persistedReducer = persistCombineReducers(persistConfig, reducer)
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(
-  reducer,
+export const store = createStore(
+  persistedReducer,
   composeEnhancers()
 )
 
-persistStore(store)
-
-
+export const persistor = persistStore(store)
 
 export default connect(store)
