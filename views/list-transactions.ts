@@ -23,9 +23,16 @@ export default class ListTransactions extends connect(LitElement) {
     this.agents = state.agents
   }
 
+  private select (transaction) {
+    navigate(`transactions/${transaction.id}`)
+  }
+
   private listItemTemplate (transaction :Transaction) {
+    const select = this.select.bind(this)
     return html`
-      <mwc-list-item>
+      <mwc-list-item
+        @click=${_ => select(transaction)}
+      >
         ${getRef(transaction.agent, this.agents).name}
         (${trimDate(transaction.date)})
       </mwc-list-item>

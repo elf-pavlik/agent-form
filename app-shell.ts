@@ -8,6 +8,7 @@ import { Persistor } from 'redux-persist'
 
 import './views/list-transactions.js'
 import './views/add-transaction.js'
+import './views/detail-transaction.js'
 import './views/list-agents.js'
 import './views/add-agent.js'
 
@@ -65,6 +66,10 @@ class AppShell extends connect(LitElement) {
          class="view"
          ?active=${view === 'add-transaction'}
       ></add-transaction>
+      <detail-transaction
+         class="view"
+         ?active=${view !== 'transactions' && view.match('transactions')}
+      ></detail-transaction>
       <list-agents
          class="view"
          ?active=${view === 'agents'}

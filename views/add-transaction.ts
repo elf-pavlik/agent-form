@@ -58,7 +58,10 @@ export default class AddTransaction extends connect(LitElement) {
   }
 
   private save () {
-    addTransaction({ id: cuid(), ...this.transaction } as Transaction)
+    const transaction = { id: cuid(), ...this.transaction } as Transaction
+    const note = this.shadowRoot.querySelector('textarea').value
+    if (note) transaction.note = note
+    addTransaction(transaction)
     this.requestUpdate()
     navigate('transactions')
   }
@@ -106,11 +109,17 @@ export default class AddTransaction extends connect(LitElement) {
       </section>
     `
     return html`
-     ${header}
-     ${agentSection}
-     <mwc-formfield>
-      <input type="date" value=${transactionDate} />
-     </mwc-formfield>
+      ${header}
+      ${agentSection}
+      <mwc-formfield>
+        <input type="date" value=${transactionDate} />
+      </mwc-formfield>
+      <section>
+        <label>${labels.note}</label>
+        <div>
+          <textarea value=${transaction.note}></textarea>
+        </div>
+      </section>
     `
   }
 }

@@ -8,6 +8,7 @@ export interface TransactionTemplate {
   type :'Transaction'
   agent ?:string
   date ?:string
+  note ?:string
 }
 
 export interface Transaction extends TransactionTemplate {

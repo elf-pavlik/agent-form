@@ -7,6 +7,9 @@ export default {
     'add place': 'add place',
     'save': 'save',
     'cancel': 'cancel',
-    'name': 'name'
+    'name': 'name',
+    'note': 'note',
+    'edit': 'edit',
+    'back': 'back'
   }
 }
