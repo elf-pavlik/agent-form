@@ -1,3 +1,4 @@
 export default {
-  language: 'en'
+  language: 'en',
+  user: { id: 'https://elf-pavlik.hackers4peace.net/' }
 }

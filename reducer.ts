@@ -1,6 +1,6 @@
+import cuid from 'cuid'
 import config from './config.js'
 import i18n from './labels.js'
-
 
 import {
   SET_LANGUAGE,
@@ -9,22 +9,63 @@ import {
   SELECT_AGENT,
   SELECT_DATE,
   UNSELECT_DATE,
+  ADD_FLOW,
   ADD_TRANSACTION,
   CANCEL_TRANSACTION
 } from './actions.js'
 import { TransactionTemplate } from './interfaces.js'
 
+function createTransaction () :TransactionTemplate {
+  return {
+    id: cuid(),
+    type: 'Transaction',
+    flows: []
+  }
+}
+
 const initial = {
+  user: config.user,
   language: config.language,
   labels: i18n[config.language],
   view: 'transactions',
-  newTransaction: { type: 'Transaction' } as TransactionTemplate
+  newTransaction: createTransaction(),
+  units: ['unit', 'kg', 'L'],
+  categories: ['currency', 'mobility', 'utilities', 'food'],
+  classifications: ['MXN', 'gas (LPG)', 'gasoline (95 RON)']
+}
+
+function user (state = initial.user, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
 }
 
 function labels (state = initial.labels, action) {
   switch (action.type) {
     case SET_LANGUAGE:
       return i18n[action.language]
+    default:
+      return state
+  }
+}
+
+function units (state = initial.units, action) {
+  switch(action.type) {
+    default:
+      return state
+  }
+}
+
+function categories (state = initial.categories, action) {
+  switch(action.type) {
+    default:
+      return state
+  }
+}
+
+function classifications (state = initial.classifications, action) {
+  switch(action.type) {
     default:
       return state
   }
@@ -85,19 +126,28 @@ function newTransaction (state = initial.newTransaction, action) {
         date: action.date
       }
     case UNSELECT_DATE:
-      let withoutDate = { ...state }
+      let withoutDate = { ...state } as TransactionTemplate
       delete withoutDate.date
       return withoutDate
+    case ADD_FLOW:
+      return {
+        ...state,
+        flows: [...state.flows, action.flow]
+      }
     case CANCEL_TRANSACTION:
     case ADD_TRANSACTION:
-      return { ...initial.newTransaction }
+      return createTransaction()
     default:
      return state
   }
 }
 
 export default {
+  user,
   labels,
+  units,
+  categories,
+  classifications,
   language,
   view,
   agents,

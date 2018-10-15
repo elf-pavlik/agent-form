@@ -1,11 +1,18 @@
 import { LitElement, html, property } from '@polymer/lit-element'
+import '@material/mwc-button'
+import '@material/mwc-chip'
+import '@material/mwc-list'
+import '@material/mwc-icon'
 
 import connect from '../store'
 import { getRef, trimDate } from './util'
 import { navigate } from '../actions'
-import { Agent, Transaction } from '../interfaces'
+import { Agent, Person, Transaction } from '../interfaces'
 
 export default class DetailTransaction extends connect(LitElement) {
+  @property({ type: Object })
+  user :Person
+
   @property({ type: String })
   view :string
 
@@ -28,6 +35,7 @@ export default class DetailTransaction extends connect(LitElement) {
 
 
   _stateChanged (state) {
+    this.user= state.user
     this.view= state.view
     this.labels = state.labels
     this.transaction = state.transactions.find(t => t.id === location.pathname.split('/').pop())
@@ -41,8 +49,22 @@ export default class DetailTransaction extends connect(LitElement) {
   edit () {
   }
 
+  // TODO: extract into a component
+  private listItemTemplate (flow) {
+    return html`
+      <mwc-list-item>
+        <mwc-icon>${flow.provider !== this.user.id ? 'chevron_right' : ''}</mwc-icon>
+        <span>${flow.quantity}</span>
+        <span>${flow.unit === 'unit' ? '' : flow.unit}</span>
+        <span class="classification">${flow.classification}</span>
+        <mwc-icon>${flow.provider === this.user.id ? 'chevron_left' : ''}</mwc-icon>
+      </mwc-list-item>
+    `
+  }
+
   render () {
-    const { labels, back, edit, transaction, transactionAgent, transactionDate } = this
+    const { labels, back, edit, listItemTemplate,
+      transaction, transactionAgent, transactionDate } = this
     const header = html`
       <section>
         <mwc-button
@@ -66,9 +88,15 @@ export default class DetailTransaction extends connect(LitElement) {
       </section>
     `
     return html`
+      <style>
+        .classification { padding-left: 5px; }
+      </style>
       ${header}
       ${agentSection}
       <p>${transactionDate}</p>
+      <section>
+        ${transaction && transaction.flows.map(listItemTemplate.bind(this))}
+      </section>
       <section>
         ${transaction && transaction.note}
       </section>

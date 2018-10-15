@@ -22,7 +22,7 @@ export default class AgentForm extends LitElement {
   }
 
   get data () :any {
-    return this. computeData()
+    return this.computeData()
   }
 
   set data (data :any) {

@@ -19,6 +19,7 @@
     "@material/mwc-chip": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/chips",
     "@material/mwc-formfield": "^0.3.1",
     "@material/mwc-list": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/list",
+    "@material/mwc-radio": "^0.3.1",
     "@material/mwc-textfield": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/textfield",
     "@polymer/lit-element": "^0.6.2",
     "cuid": "file://home/elf-pavlik/code/misc/cuid",

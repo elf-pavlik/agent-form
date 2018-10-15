@@ -2,21 +2,21 @@ import { LitElement, html, property } from '@polymer/lit-element'
 import '@material/mwc-button'
 import '@material/mwc-chip'
 import '@material/mwc-formfield'
-
-import cuid from 'cuid'
+import '@material/mwc-list'
+import '@material/mwc-icon'
 
 import connect from '../store'
 import { getRef, trimDate } from './util'
 
 import { navigate, selectDate, unselectDate, addTransaction, cancelTransaction } from '../actions'
-import { TransactionTemplate, Agent, Transaction } from '../interfaces'
+import { TransactionTemplate, Agent, Person, Transaction } from '../interfaces'
 
 export default class AddTransaction extends connect(LitElement) {
   @property({ type: Object })
-  labels :any
+  user :Person
 
-  @property({ type: String })
-  view :string
+  @property({ type: Object })
+  labels :any
 
   @property({ type: Object })
   transaction :TransactionTemplate
@@ -24,14 +24,13 @@ export default class AddTransaction extends connect(LitElement) {
   @property({ type: Array })
   agents :Agent[]
 
-  get transactionAgent () {
+  get transactionAgent () :Agent {
     return getRef(this.transaction.agent, this.agents)
   }
 
-  get transactionDate () {
+  get transactionDate () :string {
     return this.transaction.date ? trimDate(this.transaction.date) : ''
   }
-
 
   firstUpdated () {
     const dateInput = this.shadowRoot.querySelector('input[type=date]') as HTMLInputElement
@@ -45,8 +44,8 @@ export default class AddTransaction extends connect(LitElement) {
   }
 
   _stateChanged (state) {
+    this.user = state.user
     this.labels = state.labels
-    this.view = state.view
     this.agents = state.agents
     this.transaction = state.newTransaction
   }
@@ -58,7 +57,7 @@ export default class AddTransaction extends connect(LitElement) {
   }
 
   private save () {
-    const transaction = { id: cuid(), ...this.transaction } as Transaction
+    const transaction = this.transaction as Transaction
     const note = this.shadowRoot.querySelector('textarea').value
     if (note) transaction.note = note
     addTransaction(transaction)
@@ -72,8 +71,22 @@ export default class AddTransaction extends connect(LitElement) {
     navigate('transactions')
   }
 
+  // TODO: extract into a component
+  private listItemTemplate (flow) {
+    return html`
+      <mwc-list-item>
+        <mwc-icon>${flow.provider !== this.user.id ? 'chevron_right' : ''}</mwc-icon>
+        <span>${flow.quantity}</span>
+        <span>${flow.unit === 'unit' ? '' : flow.unit}</span>
+        <span class="classification">${flow.classification}</span>
+        <mwc-icon>${flow.provider === this.user.id ? 'chevron_left' : ''}</mwc-icon>
+      </mwc-list-item>
+    `
+  }
+
   render () {
-    const { labels, transaction, transactionAgent, transactionDate, cancel, save, valid } = this
+    const { labels, cancel, save, valid , listItemTemplate,
+            transaction, transactionAgent, transactionDate } = this
     const header = html`
       <section>
         <mwc-button
@@ -109,11 +122,22 @@ export default class AddTransaction extends connect(LitElement) {
       </section>
     `
     return html`
+      <style>
+        .classification { padding-left: 5px; }
+      </style>
       ${header}
       ${agentSection}
       <mwc-formfield>
         <input type="date" value=${transactionDate} />
       </mwc-formfield>
+      <section>
+        ${transaction.flows.map(listItemTemplate.bind(this))}
+        <mwc-button
+          unelevated
+          icon="add"
+          @click=${_ => navigate('add-flow')}
+        >${labels['add flow']}</mwc-button>
+      </section>
       <section>
         <label>${labels.note}</label>
         <div>

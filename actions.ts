@@ -1,5 +1,5 @@
 import { store } from './store'
-import { Agent, Transaction } from './interfaces'
+import { Agent, Transaction, Flow } from './interfaces'
 
 export const SET_LANGUAGE = 'SET_LANGUAGE'
 export const NAVIGATE = 'NAVIGATE'
@@ -9,6 +9,7 @@ export const SELECT_DATE = 'SELECT_DATE'
 export const UNSELECT_DATE = 'UNSELECT_DATE'
 export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 export const CANCEL_TRANSACTION = 'CANCEL_TRANSACTION'
+export const ADD_FLOW = 'ADD_FLOW'
 
 export function navigate (view :string) {
   return store.dispatch({
@@ -48,6 +49,13 @@ export function addTransaction (transaction :Transaction) {
   return store.dispatch({
     type: ADD_TRANSACTION,
     transaction
+  })
+}
+
+export function addFlow (flow :Flow) {
+  return store.dispatch({
+    type: ADD_FLOW,
+    flow
   })
 }
 

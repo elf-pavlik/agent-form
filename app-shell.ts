@@ -11,6 +11,7 @@ import './views/add-transaction.js'
 import './views/detail-transaction.js'
 import './views/list-agents.js'
 import './views/add-agent.js'
+import './views/add-flow.js'
 
 
 class AppShell extends connect(LitElement) {
@@ -78,6 +79,10 @@ class AppShell extends connect(LitElement) {
          class="view"
          ?active=${view === 'add-agent'}
       ></add-agent>
+      <add-flow
+         class="view"
+         ?active=${view === 'add-flow'}
+      ></add-flow>
     `
   }
 }

@@ -5,11 +5,16 @@ export default {
     'add agent': 'add agent',
     'select place': 'select place',
     'add place': 'add place',
-    'save': 'save',
-    'cancel': 'cancel',
+    'add flow': 'add flow',
     'name': 'name',
+    'quantity': 'quantity',
+    'unit': 'unit',
+    'providing': 'providing',
+    'receiving': 'receiving',
     'note': 'note',
     'edit': 'edit',
-    'back': 'back'
+    'back': 'back',
+    'save': 'save',
+    'cancel': 'cancel'
   }
 }

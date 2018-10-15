@@ -35,6 +35,11 @@ export default class ListAgents extends connect(LitElement) {
   render () {
     const { labels, agents, listItemTemplate } = this
     return html`
+      <style>
+        mwc-list-item {
+          cursor: pointer;
+        }
+      </style>
       <mwc-button
         unelevated
         icon="add"
