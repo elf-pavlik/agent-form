@@ -1,13 +1,14 @@
 import { LitElement, html, property } from '@polymer/lit-element'
-import { Button } from '@material/mwc-button'
+import '@material/mwc-button'
+
 import FlowForm from '../components/flow-form.js'
 customElements.define('flow-form', FlowForm)
-
-import cuid from 'cuid'
+import ExchangerateForm from '../components/exchangerate-form'
+customElements.define('exchangerate-form', ExchangerateForm)
 
 import connect from '../store'
-import { navigate, addFlow } from '../actions'
-import { TransactionTemplate, Person, Agent } from '../interfaces'
+import { navigate, addFlow, addExchangeRate } from '../actions'
+import { FlowTemplate, TransactionTemplate, Person, Agent } from '../interfaces'
 import { getRef } from './util'
 
 export default class AddFlow extends connect(LitElement) {
@@ -43,11 +44,27 @@ export default class AddFlow extends connect(LitElement) {
     return getRef(this.transaction.agent, this.agents)
   }
 
+  get flow () :FlowTemplate {
+    let form = this.shadowRoot.querySelector('flow-form') as FlowForm
+    return form ? form.data : {}
+  }
 
   get valid () :boolean {
     let form = this.shadowRoot.querySelector('flow-form') as FlowForm
     return !!(form && form.data.unit && form.data.quantity && form.data.category
       && form.data.classification && form.data.provider && form.data.receiver)
+  }
+  
+  get currencyFlow () :FlowTemplate {
+    return this.transaction.flows.find(flow => flow.category === 'currency')
+  } 
+
+  get displayExchangeRate () :boolean {
+    return Boolean(
+      this.currencyFlow
+      && this.flow.quantity
+      && this.currencyFlow.provider === this.flow.receiver
+      )
   }
 
   _stateChanged (state) {
@@ -62,24 +79,26 @@ export default class AddFlow extends connect(LitElement) {
 
   private save () {
     if (!this.valid) return
-    let button = this.shadowRoot.querySelector('#save') as Button
-    if (button.disabled) return
-    let form = this.shadowRoot.querySelector('flow-form') as FlowForm
-    addFlow({ id: cuid(), ...form.data })
-    form.reset()
+    let flowForm = this.shadowRoot.querySelector('flow-form') as FlowForm
+    let exchangeRateForm = this.shadowRoot.querySelector('exchangerate-form') as ExchangerateForm
+    addFlow(flowForm.data)
+    addExchangeRate(exchangeRateForm.data)
+    flowForm.reset()
+    exchangeRateForm.reset()
     this.requestUpdate()
     navigate('add-transaction')
   }
 
   private cancel () {
-    let form = this.shadowRoot.querySelector('agent-form') as FlowForm
+    let form = this.shadowRoot.querySelector('flow-form') as FlowForm
     form.reset()
     this.requestUpdate()
     navigate('add-transaction')
   }
 
   render () {
-    const { user, transactionAgent, labels, units, categories, classifications, 
+    const { user, flow, currencyFlow, transactionAgent, displayExchangeRate,
+      labels, units, categories, classifications, 
       save, cancel, valid } = this
     return html`
       <section>
@@ -105,6 +124,17 @@ export default class AddFlow extends connect(LitElement) {
           .categories=${categories}
           .classifications=${classifications}
         ></flow-form>
+      </section>
+      </section>
+        ${displayExchangeRate
+            ? html`
+              <exchangerate-form
+                .numeratorFlow=${currencyFlow}
+                .denominatorFlow=${flow}
+              ></exchangerate-form>
+            `
+            : ''
+        }
       </section>
     `
   }

@@ -4,9 +4,13 @@ import '@material/mwc-formfield'
 import '@material/mwc-textfield'
 import '@material/mwc-radio'
 
+import cuid from 'cuid'
 import { Agent, Person, FlowTemplate } from '../interfaces'
 
 export default class FlowForm extends LitElement {
+  
+  id :string
+
   @property({ type: Object})
   user :Person
 
@@ -34,15 +38,18 @@ export default class FlowForm extends LitElement {
       providing: this.shadowRoot.querySelector("#providing") as ComponentElement,
       receiving: this.shadowRoot.querySelector("#receiving") as ComponentElement
     }
-
   }
 
   firstUpdated () {
     this.reset() // TODO: this prevents passing data property from the host
     for (let field in this.fields) {
-      this.fields[field].addEventListener('input', (event) => this.dispatchEvent(new CustomEvent('change')))
+      this.fields[field].addEventListener('input', (event) => {
+        this.requestUpdate()
+        this.dispatchEvent(new CustomEvent('change'))
+      })
       // HACK for mwc-radio not forwarding events
       this.fields[field].addEventListener('click', (event) => { 
+        this.requestUpdate()
         setTimeout(() => this.dispatchEvent(new CustomEvent('change')), 100)
       })
     }
@@ -53,6 +60,7 @@ export default class FlowForm extends LitElement {
   }
 
   set data (data :any) {
+    this.id = data.id
     if (this.fields.quantity && data.quantity !== undefined) this.fields.quantity.value = data.quantity
     if (this.fields.unit && data.unit !== undefined) this.fields.unit.value = data.unit
     if (this.fields.category && data.category !== undefined) this.fields.category.value = data.category
@@ -63,13 +71,15 @@ export default class FlowForm extends LitElement {
 
   private computeData () {
     let data = {
+      id: this.id,
       type: 'Flow',
-      quantity: this.fields.quantity ? this.fields.quantity.value : '',
+      quantity: this.fields.quantity ? Number(this.fields.quantity.value) : null,
       unit: this.fields.unit ? this.fields.unit.value : '',
       category: this.fields.category ? this.fields.category.value : '',
       classification: this.fields.classification ? this.fields.classification.value : ''
     }
-    if (!this.fields.providing.checked && !this.fields.receiving.checked
+    if (!this.fields.providing || !this.fields.receiving
+        || (!this.fields.providing.checked && !this.fields.receiving.checked)
         || !this.user || !this.agent) {
       return data
     } else {
@@ -83,12 +93,17 @@ export default class FlowForm extends LitElement {
 
   reset () {
     this.data = {
+      id: cuid(),
       type: 'Flow',
-      quantity: '',
+      quantity: null,
       unit: '',
       category: '',
       classification: ''
     } as FlowTemplate
+    if (this.fields.providing && this.fields.receiving) {
+      this.fields.providing.checked = false
+      this.fields.receiving.checked = false
+    }
   }
 
   render () {

@@ -10,6 +10,7 @@ import {
   SELECT_DATE,
   UNSELECT_DATE,
   ADD_FLOW,
+  ADD_EXCHANGE_RATE,
   ADD_TRANSACTION,
   CANCEL_TRANSACTION
 } from './actions.js'
@@ -19,7 +20,8 @@ function createTransaction () :TransactionTemplate {
   return {
     id: cuid(),
     type: 'Transaction',
-    flows: []
+    flows: [],
+    exchangeRates: []
   }
 }
 
@@ -133,6 +135,11 @@ function newTransaction (state = initial.newTransaction, action) {
       return {
         ...state,
         flows: [...state.flows, action.flow]
+      }
+    case ADD_EXCHANGE_RATE:
+      return {
+        ...state,
+        exchangeRates: [...state.exchangeRates, action.exchangeRate]
       }
     case CANCEL_TRANSACTION:
     case ADD_TRANSACTION:

@@ -1,5 +1,5 @@
 import { store } from './store'
-import { Agent, Transaction, Flow } from './interfaces'
+import { Agent, Transaction, Flow, ExchangeRate } from './interfaces'
 
 export const SET_LANGUAGE = 'SET_LANGUAGE'
 export const NAVIGATE = 'NAVIGATE'
@@ -10,6 +10,7 @@ export const UNSELECT_DATE = 'UNSELECT_DATE'
 export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 export const CANCEL_TRANSACTION = 'CANCEL_TRANSACTION'
 export const ADD_FLOW = 'ADD_FLOW'
+export const ADD_EXCHANGE_RATE = 'ADD_EXCHANGE_RATE'
 
 export function navigate (view :string) {
   return store.dispatch({
@@ -56,6 +57,13 @@ export function addFlow (flow :Flow) {
   return store.dispatch({
     type: ADD_FLOW,
     flow
+  })
+}
+
+export function addExchangeRate (exchangeRate :ExchangeRate) {
+  return store.dispatch({
+    type: ADD_EXCHANGE_RATE,
+    exchangeRate
   })
 }
 

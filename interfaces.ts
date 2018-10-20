@@ -14,6 +14,7 @@ export interface TransactionTemplate {
   id :string
   type :'Transaction'
   flows :Flow[]
+  exchangeRates :ExchangeRate[]
   agent ?:string
   date ?:string
   note ?:string
@@ -30,17 +31,22 @@ export interface FlowTemplate {
   provider ?:Agent
   receiver ?:Agent
   unit ?:string
-  quantity ?:string
+  quantity ?:number
   category ?:string
   classification ?:string
 }
 
 export interface Flow extends FlowTemplate {
-  id :string
   type :'Flow'
   provider :Agent
   receiver :Agent
   unit :string
-  quantity :string
+  quantity :number
   category :string
+}
+
+export interface ExchangeRate {
+  numeratorFlow :string
+  denominatorFlow :string
+  fraction :number
 }
