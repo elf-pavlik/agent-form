@@ -28,8 +28,8 @@ export interface Transaction extends TransactionTemplate {
 export interface FlowTemplate {
   id :string
   type :'Flow'
-  provider ?:Agent
-  receiver ?:Agent
+  provider ?:string
+  receiver ?:string
   unit ?:string
   quantity ?:number
   category ?:string
@@ -38,8 +38,8 @@ export interface FlowTemplate {
 }
 
 export interface Flow extends FlowTemplate {
-  provider :Agent
-  receiver :Agent
+  provider :string
+  receiver :string
   unit :string
   quantity :number
   category :string

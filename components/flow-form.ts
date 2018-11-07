@@ -42,7 +42,7 @@ export default class FlowForm extends LitElement {
   }
 
   firstUpdated () {
-    this.reset() // TODO: this prevents passing data property from the host
+    this.reset() // FIXME: this prevents passing data property from the host
     for (let field in this.fields) {
       this.fields[field].addEventListener('input', (event) => {
         this.requestUpdate()

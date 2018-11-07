@@ -15,7 +15,7 @@ export default class AgentForm extends LitElement {
 
   constructor () {
     super()
-    this.reset() // TODO: this prevents passing data property from the host
+    this.reset() // FIXME: this prevents passing data property from the host
     this.addEventListener('input', (event) => {
       this.requestUpdate()
     })

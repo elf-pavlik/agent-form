@@ -9,6 +9,8 @@ import { getRef, trimDate } from './util'
 import { navigate } from '../actions'
 import { Agent, Person, Transaction } from '../interfaces'
 
+import '../components/flow-item'
+
 export default class DetailTransaction extends connect(LitElement) {
   @property({ type: Object })
   user :Person
@@ -49,21 +51,8 @@ export default class DetailTransaction extends connect(LitElement) {
   edit () {
   }
 
-  // TODO: extract into a component
-  private listItemTemplate (flow) {
-    return html`
-      <mwc-list-item>
-        <mwc-icon>${flow.provider !== this.user.id ? 'chevron_right' : ''}</mwc-icon>
-        <span>${flow.quantity}</span>
-        <span>${flow.unit === 'unit' ? '' : flow.unit}</span>
-        <span class="classification">${flow.classification}</span>
-        <mwc-icon>${flow.provider === this.user.id ? 'chevron_left' : ''}</mwc-icon>
-      </mwc-list-item>
-    `
-  }
-
   render () {
-    const { labels, back, edit, listItemTemplate,
+    const { labels, back, edit, user,
       transaction, transactionAgent, transactionDate } = this
     const header = html`
       <section>
@@ -88,14 +77,11 @@ export default class DetailTransaction extends connect(LitElement) {
       </section>
     `
     return html`
-      <style>
-        .classification { padding-left: 5px; }
-      </style>
       ${header}
       ${agentSection}
       <p>${transactionDate}</p>
       <section>
-        ${transaction && transaction.flows.map(listItemTemplate.bind(this))}
+        ${transaction && transaction.flows.map(flow => html`<flow-item .user=${user} .flow=${flow}></flow-item`)}
       </section>
       <section>
         ${transaction && transaction.note}

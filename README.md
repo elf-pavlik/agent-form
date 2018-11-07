@@ -1,8 +1,9 @@
-## TODO
+# ValueFlows Tracker
 
-### extract components
-* flow-item
-* agent-chip
+## Roadmap
+
+* [ ] edit functionality
+* [ ] backup and restore (file download and upload)
 
 ### modules missing in package.json
 
@@ -13,7 +14,6 @@
   "@material/mwc-textarea": "0.3.1"
 }
 ```
-
 
 ### modules in package.json which missing modules depend on
 
