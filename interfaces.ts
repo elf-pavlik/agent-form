@@ -34,10 +34,10 @@ export interface FlowTemplate {
   quantity ?:number
   category ?:string
   classification ?:string
+  note ?:string
 }
 
 export interface Flow extends FlowTemplate {
-  type :'Flow'
   provider :Agent
   receiver :Agent
   unit :string

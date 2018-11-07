@@ -35,6 +35,7 @@ export default class FlowForm extends LitElement {
       unit: this.shadowRoot.querySelector("#unit") as ComponentElement,
       category: this.shadowRoot.querySelector("#category") as ComponentElement,
       classification: this.shadowRoot.querySelector("#classification") as ComponentElement,
+      note: this.shadowRoot.querySelector("#note") as ComponentElement,
       providing: this.shadowRoot.querySelector("#providing") as ComponentElement,
       receiving: this.shadowRoot.querySelector("#receiving") as ComponentElement
     }
@@ -65,6 +66,7 @@ export default class FlowForm extends LitElement {
     if (this.fields.unit && data.unit !== undefined) this.fields.unit.value = data.unit
     if (this.fields.category && data.category !== undefined) this.fields.category.value = data.category
     if (this.fields.classification && data.classification !== undefined) this.fields.classification.value = data.classification
+    if (this.fields.note && data.note !== undefined) this.fields.note.value = data.note
     if (this.fields.providing && data.provider && data.provider !== this.user.id) this.fields.providing.checked = true
     if (this.fields.receiving && data.receiver && data.receiver !== this.user.id) this.fields.receiving.checked = true
   }
@@ -76,7 +78,8 @@ export default class FlowForm extends LitElement {
       quantity: this.fields.quantity ? Number(this.fields.quantity.value) : null,
       unit: this.fields.unit ? this.fields.unit.value : '',
       category: this.fields.category ? this.fields.category.value : '',
-      classification: this.fields.classification ? this.fields.classification.value : ''
+      classification: this.fields.classification ? this.fields.classification.value : '',
+      note: this.fields.note ? this.fields.note.value : ''
     }
     if (!this.fields.providing || !this.fields.receiving
         || (!this.fields.providing.checked && !this.fields.receiving.checked)
@@ -98,7 +101,8 @@ export default class FlowForm extends LitElement {
       quantity: null,
       unit: '',
       category: '',
-      classification: ''
+      classification: '',
+      note: '',
     } as FlowTemplate
     if (this.fields.providing && this.fields.receiving) {
       this.fields.providing.checked = false
@@ -144,6 +148,14 @@ export default class FlowForm extends LitElement {
           ${units.map(unit => html`<option value=${unit}>${unit}</option>`)}
           </select>
         </label>
+      </section>
+      <section>
+        <label>${labels.note}</label>
+        <div>
+          <textarea
+            id="note"
+          ></textarea>
+        </div>
       </section>
     `
   }
