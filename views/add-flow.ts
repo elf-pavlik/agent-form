@@ -82,9 +82,11 @@ export default class AddFlow extends connect(LitElement) {
     let flowForm = this.shadowRoot.querySelector('flow-form') as FlowForm
     let exchangeRateForm = this.shadowRoot.querySelector('exchangerate-form') as ExchangerateForm
     addFlow(flowForm.data)
-    addExchangeRate(exchangeRateForm.data)
     flowForm.reset()
-    exchangeRateForm.reset()
+    if (exchangeRateForm) {
+      addExchangeRate(exchangeRateForm.data)
+      exchangeRateForm.reset()
+    }
     this.requestUpdate()
     navigate('add-transaction')
   }
