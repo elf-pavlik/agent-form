@@ -11,6 +11,7 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 export const CANCEL_TRANSACTION = 'CANCEL_TRANSACTION'
 export const ADD_FLOW = 'ADD_FLOW'
 export const ADD_EXCHANGE_RATE = 'ADD_EXCHANGE_RATE'
+export const RESTORE = 'RESTORE'
 
 export function navigate (view :string) {
   return store.dispatch({
@@ -70,5 +71,12 @@ export function addExchangeRate (exchangeRate :ExchangeRate) {
 export function cancelTransaction () {
   return store.dispatch({
     type: CANCEL_TRANSACTION
+  })
+}
+
+export function restore (data) {
+  return store.dispatch({
+    type: RESTORE,
+    data
   })
 }

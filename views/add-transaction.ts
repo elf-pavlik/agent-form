@@ -3,7 +3,6 @@ import '@material/mwc-button'
 import '@material/mwc-chip'
 import '@material/mwc-formfield'
 import '@material/mwc-list'
-import '@material/mwc-icon'
 
 import connect from '../store'
 import { getRef, trimDate } from './util'

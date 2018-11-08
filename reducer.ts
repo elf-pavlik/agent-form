@@ -12,7 +12,8 @@ import {
   ADD_FLOW,
   ADD_EXCHANGE_RATE,
   ADD_TRANSACTION,
-  CANCEL_TRANSACTION
+  CANCEL_TRANSACTION,
+  RESTORE
 } from './actions.js'
 import { TransactionTemplate } from './interfaces.js'
 
@@ -38,6 +39,8 @@ const initial = {
 
 function user (state = initial.user, action) {
   switch (action.type) {
+    case RESTORE:
+      return action.data.user
     default:
       return state
   }
@@ -98,6 +101,8 @@ function agents (state = [], action) {
         Object.assign({}, action.agent),
         ...state
       ]
+    case RESTORE:
+      return action.data.agents
     default:
       return state
   }
@@ -110,6 +115,8 @@ function transactions (state = [], action) {
         Object.assign({}, action.transaction),
         ...state
       ]
+    case RESTORE:
+      return action.data.transactions
     default:
       return state
   }
@@ -144,6 +151,8 @@ function newTransaction (state = initial.newTransaction, action) {
     case CANCEL_TRANSACTION:
     case ADD_TRANSACTION:
       return createTransaction()
+    case RESTORE:
+      return action.data.newTransaction
     default:
      return state
   }

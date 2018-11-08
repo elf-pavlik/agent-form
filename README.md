@@ -2,8 +2,8 @@
 
 ## Roadmap
 
+* [ ] remove global file-saver
 * [ ] edit functionality
-* [ ] backup and restore (file download and upload)
 
 ### modules missing in package.json
 

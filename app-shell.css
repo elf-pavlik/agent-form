@@ -4,3 +4,7 @@
 .view[active] {
   display: block;
 }
+
+#upload {
+  display: none;
+}

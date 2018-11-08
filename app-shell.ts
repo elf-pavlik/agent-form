@@ -1,8 +1,10 @@
 import { LitElement, html, property } from '@polymer/lit-element'
 import { installRouter } from 'pwa-helpers/router.js'
 
-import connect, { persistor } from './store'
-import { navigate } from './actions'
+import '@material/mwc-button'
+
+import connect, { store, persistor } from './store'
+import { navigate, restore } from './actions'
 
 import { Persistor } from 'redux-persist'
 
@@ -13,12 +15,12 @@ import './views/list-agents.js'
 import './views/add-agent.js'
 import './views/add-flow.js'
 
-
 class AppShell extends connect(LitElement) {
 
   @property({ type: String })
   view :string
 
+  store = store
   persistor :Persistor = persistor
 
   private initialRouteHandled :boolean = false
@@ -43,6 +45,30 @@ class AppShell extends connect(LitElement) {
     if (this.initialRouteHandled) this.handleHistory()
   }
 
+  private download () {
+    const blob = new Blob([JSON.stringify(this.store.getState())], { type: 'application/json;charset=utf-8'})
+    saveAs(blob, 'backup.json')
+  }
+
+  private upload () {
+    const input = this.shadowRoot.querySelector('#upload input') as HTMLInputElement
+    input.click()
+  }
+
+  private handleUpload () {
+    const form = this.shadowRoot.querySelector('#upload') as HTMLFormElement
+    const input = this.shadowRoot.querySelector('#upload input') as HTMLInputElement
+    const backup = input.files[0]
+    const fileReader = new FileReader()
+    fileReader.onload = event => {
+      let reader = event.target as any
+      let data = JSON.parse(reader.result)
+      restore(data)
+      form.reset()
+    }
+   fileReader.readAsText(backup)
+  }
+
   private handleHistory () {
     let newPath
     if (this.view === 'transactions') {
@@ -56,7 +82,7 @@ class AppShell extends connect(LitElement) {
   }
 
   render () {
-    const { view } = this
+    const { view, download, upload, handleUpload } = this
     return html`
       <style>@import 'app-shell.css'</style>
       <list-transactions
@@ -83,6 +109,23 @@ class AppShell extends connect(LitElement) {
          class="view"
          ?active=${view === 'add-flow'}
       ></add-flow>
+      ${ view !== 'transactions' ? '' :
+        html`
+          <section>
+            <mwc-button
+              icon="cloud_download"
+              @click=${download}
+            ></mwc-button>
+            <mwc-button
+              icon="cloud_upload"
+              @click=${upload}
+            ></mwc-button>
+            <form id="upload">
+              <input type="file" @change=${handleUpload} />
+            </form>
+          </section>
+        `
+      }
     `
   }
 }
