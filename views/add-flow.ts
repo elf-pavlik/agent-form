@@ -1,4 +1,4 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
 
 import FlowForm from '../components/flow-form.js'

@@ -1,6 +1,5 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
-import '@material/mwc-list'
 
 import connect from '../store'
 import { navigate, selectAgent } from '../actions'
@@ -26,9 +25,9 @@ export default class ListAgents extends connect(LitElement) {
   private listItemTemplate (agent) {
     const select = this.select.bind(this)
     return html`
-      <mwc-list-item
+      <li
         @click=${_ => select(agent)}
-      >${agent.name}</mwc-list-item>
+      >${agent.name}</li>
     `
   }
 
@@ -36,7 +35,7 @@ export default class ListAgents extends connect(LitElement) {
     const { labels, agents, listItemTemplate } = this
     return html`
       <style>
-        mwc-list-item {
+        li {
           cursor: pointer;
         }
       </style>

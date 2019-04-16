@@ -1,8 +1,6 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
-import '@material/mwc-chip'
 import '@material/mwc-formfield'
-import '@material/mwc-list'
 
 import connect from '../store'
 import { getRef, trimDate } from './util'
@@ -61,7 +59,8 @@ export default class AddTransaction extends connect(LitElement) {
     const transaction = this.transaction as Transaction
     const note = this.shadowRoot.querySelector('textarea').value
     if (note) transaction.note = note
-    addTransaction(transaction)
+    // addTransaction(transaction)
+    this.dispatchEvent(new CustomEvent('add-transaction', { detail: transaction } ))
     this.requestUpdate()
     navigate('transactions')
   }
@@ -95,9 +94,9 @@ export default class AddTransaction extends connect(LitElement) {
       <section>
         ${transaction.agent
           ? html`
-              <mwc-chip
-                label=${transactionAgent.name}
-              ></mwc-chip>
+              <span>
+                ${transactionAgent.name}
+              </span>
           `
           : html `
               <mwc-button

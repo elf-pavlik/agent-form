@@ -1,6 +1,5 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
-import '@material/mwc-list'
 
 import connect from '../store'
 import { getRef, trimDate } from './util'
@@ -30,12 +29,12 @@ export default class ListTransactions extends connect(LitElement) {
   private listItemTemplate (transaction :Transaction) {
     const select = this.select.bind(this)
     return html`
-      <mwc-list-item
+      <li
         @click=${_ => select(transaction)}
       >
         ${getRef(transaction.agent, this.agents).name}
         (${trimDate(transaction.date)})
-      </mwc-list-item>
+      </li>
     `
   }
 
@@ -43,7 +42,7 @@ export default class ListTransactions extends connect(LitElement) {
     const { labels, transactions, listItemTemplate } = this
     return html`
       <style>
-        mwc-list-item {
+        li {
           cursor: pointer;
         }
       </style>

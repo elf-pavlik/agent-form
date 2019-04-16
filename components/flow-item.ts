@@ -1,4 +1,4 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import { Person, Flow } from '../interfaces'
 
 export default class FlowItem extends LitElement {
@@ -14,13 +14,13 @@ export default class FlowItem extends LitElement {
       <style>
         .classification { padding-left: .5em; }
       </style>
-      <mwc-list-item>
+      <li>
         <mwc-icon>${flow.provider !== user.id ? 'chevron_right' : ''}</mwc-icon>
         <span>${flow.quantity}</span>
         <span>${flow.unit === 'unit' ? '' : flow.unit}</span>
         <span class="classification">${flow.classification}</span>
         <mwc-icon>${flow.provider === user.id ? 'chevron_left' : ''}</mwc-icon>
-      </mwc-list-item>
+      </li>
     `
   }
 }

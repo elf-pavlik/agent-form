@@ -1,7 +1,5 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
-import '@material/mwc-chip'
-import '@material/mwc-list'
 import '@material/mwc-icon'
 
 import connect from '../store'
@@ -71,9 +69,9 @@ export default class DetailTransaction extends connect(LitElement) {
     `
     const agentSection = html`
       <section>
-        <mwc-chip
-          label=${transactionAgent && transactionAgent.name}
-        ></mwc-chip>
+        <span>
+          ${transactionAgent && transactionAgent.name}
+        </span>
       </section>
     `
     return html`

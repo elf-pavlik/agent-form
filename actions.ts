@@ -1,4 +1,8 @@
-import { store } from './store'
+// import { store } from './store'
+
+import { lookup } from 'actor-helpers'
+const store = lookup('store')
+
 import { Agent, Transaction, Flow, ExchangeRate } from './interfaces'
 
 export const SET_LANGUAGE = 'SET_LANGUAGE'
@@ -14,7 +18,7 @@ export const ADD_EXCHANGE_RATE = 'ADD_EXCHANGE_RATE'
 export const RESTORE = 'RESTORE'
 
 export function navigate (view :string) {
-  return store.dispatch({
+  return store.send({
     type: NAVIGATE,
     view
   })

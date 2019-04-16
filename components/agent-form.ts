@@ -1,4 +1,4 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-textfield'
 import { ComponentElement } from '@material/mwc-base/component-element.js'
 

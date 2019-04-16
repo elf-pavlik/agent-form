@@ -1,4 +1,4 @@
-import { LitElement, html, property } from '@polymer/lit-element'
+import { LitElement, html, property } from 'lit-element'
 import { installRouter } from 'pwa-helpers/router.js'
 
 import '@material/mwc-button'
@@ -21,7 +21,7 @@ class AppShell extends connect(LitElement) {
   view :string
 
   store = store
-  persistor :Persistor = persistor
+  persistor :Persistor = persistor // debug helper
 
   private initialRouteHandled :boolean = false
 
