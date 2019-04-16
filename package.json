@@ -20,7 +20,7 @@
     "@material/mwc-textfield": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/textfield",
     "lit-element": "^2.1.0",
     "@types/file-saver": "^2.0.0",
-    "cuid": "file://home/elf-pavlik/code/misc/cuid",
+    "cuid": "https://github.com/elf-pavlik/cuid#es-module",
     "file-saver": "^2.0.0-rc.4",
     "localforage": "^1.7.2",
     "pwa-helpers": "^0.9.1",
