@@ -17,7 +17,7 @@
     "@material/mwc-button": "^0.5.0",
     "@material/mwc-formfield": "^0.5.0",
     "@material/mwc-radio": "^0.5.0",
-    "@material/mwc-textfield": "file://home/elf-pavlik/code/webcomponents/material-components-web-components/packages/textfield",
+    "@material/mwc-textfield": "https://github.com/elf-pavlik/mwc-textfield",
     "lit-element": "^2.1.0",
     "@types/file-saver": "^2.0.0",
     "cuid": "https://github.com/elf-pavlik/cuid#es-module",
