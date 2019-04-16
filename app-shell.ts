@@ -3,7 +3,7 @@ import { installRouter } from 'pwa-helpers/router.js'
 
 import '@material/mwc-button'
 
-import connect, { store, persistor } from './store'
+import store, { persistor } from './store'
 import { navigate, restore } from './actions'
 
 import { Persistor } from 'redux-persist'
@@ -15,7 +15,7 @@ import './views/list-agents.js'
 import './views/add-agent.js'
 import './views/add-flow.js'
 
-class AppShell extends connect(LitElement) {
+class AppShell extends LitElement {
 
   @property({ type: String })
   view :string

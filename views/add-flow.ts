@@ -6,12 +6,11 @@ customElements.define('flow-form', FlowForm)
 import ExchangerateForm from '../components/exchangerate-form'
 customElements.define('exchangerate-form', ExchangerateForm)
 
-import connect from '../store'
 import { navigate, addFlow, addExchangeRate } from '../actions'
 import { FlowTemplate, TransactionTemplate, Person, Agent } from '../interfaces'
 import { getRef } from './util'
 
-export default class AddFlow extends connect(LitElement) {
+export default class AddFlow extends LitElement {
   @property({ type: Object })
   user :Person
 

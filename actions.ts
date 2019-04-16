@@ -1,6 +1,6 @@
 // import { store } from './store'
 
-import { lookup } from 'actor-helpers'
+import { lookup } from 'actor-helpers/src/actor/Actor'
 const store = lookup('store')
 
 import { Agent, Transaction, Flow, ExchangeRate } from './interfaces'
@@ -20,67 +20,67 @@ export const RESTORE = 'RESTORE'
 export function navigate (view :string) {
   return store.send({
     type: NAVIGATE,
-    view
+    payload: view
   })
 }
 
 export function addAgent (agent :Agent) {
-  return store.dispatch({
+  return store.send({
     type: ADD_AGENT,
-    agent
+    payload: agent
   })
 }
 
 export function selectAgent (agent :Agent) {
-  return store.dispatch({
+  return store.send({
     type: SELECT_AGENT,
-    agent
+    payload: agent
   })
 }
 
 export function selectDate (date :string) {
-  return store.dispatch({
+  return store.send({
     type: SELECT_DATE,
-    date
+    payload: date
   })
 }
 
 export function unselectDate () {
-  return store.dispatch({
+  return store.send({
     type: UNSELECT_DATE
   })
 }
 
 export function addTransaction (transaction :Transaction) {
-  return store.dispatch({
+  return store.send({
     type: ADD_TRANSACTION,
-    transaction
+    payload: transaction
   })
 }
 
 export function addFlow (flow :Flow) {
-  return store.dispatch({
+  return store.send({
     type: ADD_FLOW,
-    flow
+    payload: flow
   })
 }
 
 export function addExchangeRate (exchangeRate :ExchangeRate) {
-  return store.dispatch({
+  return store.send({
     type: ADD_EXCHANGE_RATE,
-    exchangeRate
+    payload: exchangeRate
   })
 }
 
 export function cancelTransaction () {
-  return store.dispatch({
+  return store.send({
     type: CANCEL_TRANSACTION
   })
 }
 
 export function restore (data) {
-  return store.dispatch({
+  return store.send({
     type: RESTORE,
-    data
+    payload: data
   })
 }

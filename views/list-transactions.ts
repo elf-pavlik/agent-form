@@ -1,12 +1,11 @@
 import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
 
-import connect from '../store'
 import { getRef, trimDate } from './util'
 import { navigate } from '../actions'
 import { Agent, Transaction } from '../interfaces'
 
-export default class ListTransactions extends connect(LitElement) {
+export default class ListTransactions extends LitElement {
   @property({ type: Object })
   labels :any
 

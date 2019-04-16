@@ -1,5 +1,4 @@
 import { LitElement, html, property } from 'lit-element'
-import connect from '../store'
 import { navigate, addAgent } from '../actions'
 import '@material/mwc-button'
 import { Button } from '@material/mwc-button'
@@ -9,7 +8,7 @@ import cuid from 'cuid'
 import AgentForm from '../components/agent-form.js'
 customElements.define('agent-form', AgentForm)
 
-export default class AddAgent extends connect(LitElement) {
+export default class AddAgent extends LitElement {
   @property({ type: Object })
   labels :any
 

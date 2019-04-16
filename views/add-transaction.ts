@@ -2,7 +2,6 @@ import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
 import '@material/mwc-formfield'
 
-import connect from '../store'
 import { getRef, trimDate } from './util'
 
 import { navigate, selectDate, unselectDate, addTransaction, cancelTransaction } from '../actions'
@@ -10,7 +9,7 @@ import { TransactionTemplate, Agent, Person, Transaction } from '../interfaces'
 
 import '../components/flow-item'
 
-export default class AddTransaction extends connect(LitElement) {
+export default class AddTransaction extends LitElement {
   @property({ type: Object })
   user :Person
 
