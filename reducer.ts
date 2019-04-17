@@ -1,6 +1,6 @@
 import cuid from 'cuid'
-import config from './config.js'
-import i18n from './labels.js'
+import config from './config'
+import i18n from './labels'
 
 import {
   SET_LANGUAGE,
@@ -14,7 +14,8 @@ import {
   ADD_TRANSACTION,
   CANCEL_TRANSACTION,
   RESTORE
-} from './actions.js'
+} from './actionTypes'
+
 import { TransactionTemplate } from './interfaces.js'
 
 function createTransaction () :TransactionTemplate {
@@ -49,7 +50,7 @@ function user (state = initial.user, action) {
 function labels (state = initial.labels, action) {
   switch (action.type) {
     case SET_LANGUAGE:
-      return i18n[action.language]
+      return i18n[action.payload]
     default:
       return state
   }
@@ -79,7 +80,7 @@ function classifications (state = initial.classifications, action) {
 function language (state = initial.language, action) {
   switch (action.type) {
     case SET_LANGUAGE:
-      return action.language
+      return action.payload
     default:
       return state
   }
@@ -88,7 +89,7 @@ function language (state = initial.language, action) {
 function view (state = initial.view, action) {
   switch (action.type) {
     case NAVIGATE:
-      return action.view
+      return action.payload
     default:
       return state
   }
@@ -98,11 +99,11 @@ function agents (state = [], action) {
   switch(action.type) {
     case ADD_AGENT:
       return [
-        Object.assign({}, action.agent),
+        Object.assign({}, action.payload),
         ...state
       ]
     case RESTORE:
-      return action.data.agents
+      return action.payload.agents
     default:
       return state
   }
@@ -112,11 +113,11 @@ function transactions (state = [], action) {
   switch(action.type) {
     case ADD_TRANSACTION:
       return [
-        Object.assign({}, action.transaction),
+        Object.assign({}, action.payload),
         ...state
       ]
     case RESTORE:
-      return action.data.transactions
+      return action.payload.transactions
     default:
       return state
   }
@@ -127,12 +128,12 @@ function newTransaction (state = initial.newTransaction, action) {
     case SELECT_AGENT:
       return {
         ... state,
-        agent: action.agent.id
+        agent: action.payload.id
       }
     case SELECT_DATE:
       return {
         ... state,
-        date: action.date
+        date: action.payload
       }
     case UNSELECT_DATE:
       let withoutDate = { ...state } as TransactionTemplate
@@ -141,18 +142,18 @@ function newTransaction (state = initial.newTransaction, action) {
     case ADD_FLOW:
       return {
         ...state,
-        flows: [...state.flows, action.flow]
+        flows: [...state.flows, action.payload]
       }
     case ADD_EXCHANGE_RATE:
       return {
         ...state,
-        exchangeRates: [...state.exchangeRates, action.exchangeRate]
+        exchangeRates: [...state.exchangeRates, action.payload]
       }
     case CANCEL_TRANSACTION:
     case ADD_TRANSACTION:
       return createTransaction()
     case RESTORE:
-      return action.data.newTransaction
+      return action.payload.newTransaction
     default:
      return state
   }

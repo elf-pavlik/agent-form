@@ -7,11 +7,12 @@ declare global {
 
 import {
   createStore,
-  compose
+  compose,
+  combineReducers
 } from 'redux'
 import { persistStore, persistCombineReducers } from 'redux-persist'
 import storage from 'localforage/src/localforage'
-import reducer from './reducer.js'
+import reducer from './reducer'
 
 const persistConfig = {
   key: 'redux',
@@ -19,17 +20,18 @@ const persistConfig = {
   storage
 }
 
-const persistedReducer = persistCombineReducers(persistConfig, reducer)
+// const persistedReducer = persistCombineReducers(persistConfig, reducer)
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
-  persistedReducer,
+  // persistedReducer,
+  combineReducers(reducer),
   composeEnhancers()
 )
 
-export const persistor = persistStore(store)
+// export const persistor = persistStore(store)
 
 export default store

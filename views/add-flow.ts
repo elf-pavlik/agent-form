@@ -1,7 +1,7 @@
 import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
 
-import FlowForm from '../components/flow-form.js'
+import FlowForm from '../components/flow-form'
 customElements.define('flow-form', FlowForm)
 import ExchangerateForm from '../components/exchangerate-form'
 customElements.define('exchangerate-form', ExchangerateForm)

@@ -5,23 +5,27 @@
   "license": "Unlicense",
   "private": false,
   "scripts": {
-    "start": "tsc -p tsconfig.json -w"
+    "start": "webpack-dev-server"
   },
   "devDependencies": {
     "standard": "^12.0.1",
-    "typescript": "^3.2.2"
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.3",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
-    "actor-helpers": "git+https://github.com/PolymerLabs/actor-helpers.git#master",
     "@material/mwc-base": "0.5.0",
     "@material/mwc-button": "^0.5.0",
     "@material/mwc-formfield": "^0.5.0",
     "@material/mwc-radio": "^0.5.0",
     "@material/mwc-textfield": "https://github.com/elf-pavlik/mwc-textfield",
-    "lit-element": "^2.1.0",
     "@types/file-saver": "^2.0.0",
-    "cuid": "https://github.com/elf-pavlik/cuid#es-module",
+    "actor-helpers": "git+https://github.com/PolymerLabs/actor-helpers.git#master",
+    "cuid": "^2.1.6",
     "file-saver": "^2.0.0-rc.4",
+    "lit-element": "^2.1.0",
     "localforage": "^1.7.2",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.0.0",

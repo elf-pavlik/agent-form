@@ -5,7 +5,7 @@ import { Button } from '@material/mwc-button'
 
 import cuid from 'cuid'
 
-import AgentForm from '../components/agent-form.js'
+import AgentForm from '../components/agent-form'
 customElements.define('agent-form', AgentForm)
 
 export default class AddAgent extends LitElement {

@@ -1,21 +1,28 @@
 // import { store } from './store'
 
-import { lookup } from 'actor-helpers/src/actor/Actor'
-const store = lookup('store')
+import { lookup } from 'actor-helpers/lib/actor/Actor'
 
 import { Agent, Transaction, Flow, ExchangeRate } from './interfaces'
 
-export const SET_LANGUAGE = 'SET_LANGUAGE'
-export const NAVIGATE = 'NAVIGATE'
-export const ADD_AGENT = 'ADD_AGENT'
-export const SELECT_AGENT = 'SELECT_AGENT'
-export const SELECT_DATE = 'SELECT_DATE'
-export const UNSELECT_DATE = 'UNSELECT_DATE'
-export const ADD_TRANSACTION = 'ADD_TRANSACTION'
-export const CANCEL_TRANSACTION = 'CANCEL_TRANSACTION'
-export const ADD_FLOW = 'ADD_FLOW'
-export const ADD_EXCHANGE_RATE = 'ADD_EXCHANGE_RATE'
-export const RESTORE = 'RESTORE'
+import {
+  SET_LANGUAGE,
+  NAVIGATE,
+  ADD_AGENT,
+  SELECT_AGENT,
+  SELECT_DATE,
+  UNSELECT_DATE,
+  ADD_FLOW,
+  ADD_EXCHANGE_RATE,
+  ADD_TRANSACTION,
+  CANCEL_TRANSACTION,
+  RESTORE
+} from './actionTypes'
+
+const store = lookup('state')
+
+// stateActorHandle
+
+// export default function actionsFactory(stateActorHandle)
 
 export function navigate (view :string) {
   return store.send({

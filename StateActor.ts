@@ -1,21 +1,15 @@
-import { Actor, lookup } from 'actor-helpers/src/actor/Actor'
+import { Actor, lookup } from 'actor-helpers/lib/actor/Actor'
 import { Store } from 'redux';
 
 declare global {
   interface ActorMessageType {
-    ui: State
-    store: Action
+    state: Action
   }
 }
 
 interface Action {
   type: string,
   payload?: any
-}
-
-interface State {
-  type: 'STATE'
-  state: object
 }
 
 export default class StateActor extends Actor<Action> {
