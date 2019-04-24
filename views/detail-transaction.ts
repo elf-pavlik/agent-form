@@ -3,8 +3,10 @@ import '@material/mwc-button'
 import '@material/mwc-icon'
 
 import { getRef, trimDate } from './util'
-import { navigate } from '../actions'
 import { Agent, Person, Transaction } from '../interfaces'
+
+import connect from '../connectMixin'
+import { uiActor } from '../bootstrap'
 
 import '../components/flow-item'
 
@@ -32,17 +34,8 @@ export default class DetailTransaction extends LitElement {
     return (this.transaction && this.transaction.date) ? trimDate(this.transaction.date) : ''
   }
 
-
-  _stateChanged (state) {
-    this.user= state.user
-    this.view= state.view
-    this.labels = state.labels
-    this.transaction = state.transactions.find(t => t.id === location.pathname.split('/').pop())
-    this.agents = state.agents
-  }
-
   back () {
-    navigate('transactions')
+    this.dispatchEvent(new CustomEvent('back'))
   }
 
   edit () {
@@ -87,4 +80,25 @@ export default class DetailTransaction extends LitElement {
   }
 }
 
-customElements.define('detail-transaction', DetailTransaction)
+class ConnectedDetailTransaction extends connect (uiActor, DetailTransaction) {
+
+  mapStateToProps(state) {
+    return {
+      user: state.user,
+      view: state.view,
+      labels: state.labels,
+      transaction: state.transactions.find(t => t.id === location.pathname.split('/').pop()),
+      agents: state.agents
+    }
+  }
+
+  mapEventsToActions(actions) {
+    return {
+      'back' () {
+        return actions.navigate('transactions')
+      }
+    }
+  }
+}
+
+customElements.define('detail-transaction', ConnectedDetailTransaction)

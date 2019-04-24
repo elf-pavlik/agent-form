@@ -6,9 +6,12 @@ customElements.define('flow-form', FlowForm)
 import ExchangerateForm from '../components/exchangerate-form'
 customElements.define('exchangerate-form', ExchangerateForm)
 
-import { navigate, addFlow, addExchangeRate } from '../actions'
 import { FlowTemplate, TransactionTemplate, Person, Agent } from '../interfaces'
 import { getRef } from './util'
+
+import connect from '../connectMixin'
+import { uiActor } from '../bootstrap'
+
 
 export default class AddFlow extends LitElement {
   @property({ type: Object })
@@ -66,35 +69,24 @@ export default class AddFlow extends LitElement {
       )
   }
 
-  _stateChanged (state) {
-    this.user = state.user
-    this.labels = state.labels
-    this.units = state.units
-    this.categories = state.categories
-    this.classifications = state.classifications
-    this.transaction = state.newTransaction
-    this.agents = state.agents
-  }
-
   private save () {
     if (!this.valid) return
     let flowForm = this.shadowRoot.querySelector('flow-form') as FlowForm
     let exchangeRateForm = this.shadowRoot.querySelector('exchangerate-form') as ExchangerateForm
-    addFlow(flowForm.data)
+    this.dispatchEvent(new CustomEvent('add-flow', { detail: { ...flowForm.data } }))
     flowForm.reset()
     if (exchangeRateForm) {
-      addExchangeRate(exchangeRateForm.data)
+      this.dispatchEvent(new CustomEvent('add-exchangerate', { detail: { ...exchangeRateForm.data } }))
       exchangeRateForm.reset()
     }
     this.requestUpdate()
-    navigate('add-transaction')
   }
 
   private cancel () {
     let form = this.shadowRoot.querySelector('flow-form') as FlowForm
     form.reset()
     this.requestUpdate()
-    navigate('add-transaction')
+    this.dispatchEvent(new CustomEvent('cancel'))
   }
 
   render () {
@@ -141,4 +133,34 @@ export default class AddFlow extends LitElement {
   }
 }
 
-customElements.define('add-flow', AddFlow)
+class ConnectedAddFlow extends connect (uiActor, AddFlow) {
+
+  mapStateToProps(state) {
+    return {
+      user: state.user,
+      labels: state.labels,
+      units: state.units,
+      categories: state.categories,
+      classifications: state.classifications,
+      transaction: state.newTransaction,
+      agents: state.agents
+    }
+  }
+
+  mapEventsToActions(actions) {
+    return {
+      'add-exchangerate' (exchangeRate) {
+        return actions.addExchangeRate(exchangeRate)
+      },
+      'add-flow' (flow) {
+        actions.addFlow(flow)
+        return actions.navigate('add-transaction')
+      },
+      'cancel' () {
+        return actions.navigate('add-transaction')
+      }
+    }
+  }
+}
+
+customElements.define('add-flow', ConnectedAddFlow)

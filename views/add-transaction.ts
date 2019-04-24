@@ -4,8 +4,11 @@ import '@material/mwc-formfield'
 
 import { getRef, trimDate } from './util'
 
-import { navigate, selectDate, unselectDate, addTransaction, cancelTransaction } from '../actions'
 import { TransactionTemplate, Agent, Person, Transaction } from '../interfaces'
+
+import connect from '../connectMixin'
+import { uiActor } from '../bootstrap'
+
 
 import '../components/flow-item'
 
@@ -34,18 +37,13 @@ export default class AddTransaction extends LitElement {
     const dateInput = this.shadowRoot.querySelector('input[type=date]') as HTMLInputElement
     dateInput.addEventListener('input', (event) => {
       if (dateInput.value !== '') {
-        selectDate(new Date(dateInput.value).toISOString())
+        this.dispatchEvent(new CustomEvent('select-date', {
+          detail: new Date(dateInput.value).toISOString()
+        }))
       } else {
-        unselectDate()
+        this.dispatchEvent(new CustomEvent('unselect-date'))
       }
     })
-  }
-
-  _stateChanged (state) {
-    this.user = state.user
-    this.labels = state.labels
-    this.agents = state.agents
-    this.transaction = state.newTransaction
   }
 
   get valid () {
@@ -58,16 +56,13 @@ export default class AddTransaction extends LitElement {
     const transaction = this.transaction as Transaction
     const note = this.shadowRoot.querySelector('textarea').value
     if (note) transaction.note = note
-    // addTransaction(transaction)
     this.dispatchEvent(new CustomEvent('add-transaction', { detail: transaction } ))
     this.requestUpdate()
-    navigate('transactions')
   }
 
   private cancel () {
-    cancelTransaction()
+    this.dispatchEvent(new CustomEvent('cancel'))
     this.requestUpdate()
-    navigate('transactions')
   }
 
   render () {
@@ -101,7 +96,7 @@ export default class AddTransaction extends LitElement {
               <mwc-button
                 unelevated
                 icon="list"
-                @click=${_ => navigate('agents')}
+                @click=${_ => this.dispatchEvent(new CustomEvent('select-agent'))}
               >${labels['select agent']}</mwc-button>
           `
         }
@@ -118,7 +113,7 @@ export default class AddTransaction extends LitElement {
         <mwc-button
           unelevated
           icon="add"
-          @click=${_ => navigate('add-flow')}
+          @click=${_ => this.dispatchEvent(new CustomEvent('add-flow'))}
         >${labels['add flow']}</mwc-button>
       </section>
       <section>
@@ -131,4 +126,44 @@ export default class AddTransaction extends LitElement {
   }
 }
 
-customElements.define('add-transaction', AddTransaction)
+class ConnectedAddTransaction extends connect (uiActor, AddTransaction) {
+
+  mapStateToProps(state) {
+    return {
+      labels: state.labels,
+      agents: state.agents,
+      user: state.user,
+      transaction: state.newTransaction
+    }
+  }
+
+  mapEventsToActions(actions) {
+    return {
+      'select-date' (date) {
+        return actions.selectDate(date)
+      },
+      'unselect-date' () {
+        return actions.unselectDate()
+      },
+      'select-agent' () {
+        return actions.navigate('agents')
+      },
+      'add-flow' () {
+        return actions.navigate('add-flow')
+      },
+      'select-transaction' (transaction) {
+        return actions.navigate(`transactions/${transaction.id}`)
+      },
+      'add-transaction' (transaction) {
+        actions.addTransaction(transaction)
+        return actions.navigate('transactions')
+      },
+      'cancel' () {
+        actions.cancelTransaction()
+        return actions.navigate('transactions')
+      }
+    }
+  }
+}
+
+customElements.define('add-transaction', ConnectedAddTransaction)

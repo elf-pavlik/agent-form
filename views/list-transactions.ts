@@ -17,15 +17,10 @@ export default class ListTransactions extends LitElement {
   @property({ type: Array })
   agents :Agent[] = []
 
-  private select (transaction) {
-    navigate(`transactions/${transaction.id}`)
-  }
-
   private listItemTemplate (transaction :Transaction) {
-    const select = this.select.bind(this)
     return html`
       <li
-        @click=${_ => select(transaction)}
+        @click=${_ => this.dispatchEvent(new CustomEvent('select-transaction', { detail: transaction }))}
       >
         ${getRef(transaction.agent, this.agents).name}
         (${trimDate(transaction.date)})
@@ -65,7 +60,10 @@ class ConnectedListTransactions extends connect (uiActor, ListTransactions) {
 
   mapEventsToActions(actions) {
     return {
-      'add-transaction' (detail) {
+      'select-transaction' (transaction) {
+        return actions.navigate(`transactions/${transaction.id}`)
+      },
+      'add-transaction' () {
         return actions.navigate('add-transaction')
       }
     }

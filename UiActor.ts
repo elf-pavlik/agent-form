@@ -40,10 +40,10 @@ export default class UiActor extends Actor<StateMessage> {
 
   async onMessage (stateMessage: StateMessage) {
     this.state = stateMessage.state
+    this.handleHistory()
     for (const callback of this.connectedComponentsCallbacks) {
       callback(this.state)
     }
-    this.handleHistory()
   }
 
   subscribe (componentCallback) {

@@ -1,9 +1,10 @@
 import { LitElement, html, property } from 'lit-element'
-import { navigate, addAgent } from '../actions'
 import '@material/mwc-button'
 import { Button } from '@material/mwc-button'
 
 import cuid from 'cuid'
+import connect from '../connectMixin'
+import { uiActor } from '../bootstrap'
 
 import AgentForm from '../components/agent-form'
 customElements.define('agent-form', AgentForm)
@@ -24,26 +25,21 @@ export default class AddAgent extends LitElement {
     return form && form.data.name !== ''
   }
 
-  _stateChanged (state) {
-    this.labels = state.labels
-  }
-
   private save () {
     if (!this.valid) return
     let button = this.shadowRoot.querySelector('#save') as Button
     if (button.disabled) return
     let form = this.shadowRoot.querySelector('agent-form') as AgentForm
-    addAgent({ id: cuid(), ...form.data })
+    this.dispatchEvent(new CustomEvent('add-agent', { detail: { id: cuid(), ...form.data }}))
     form.reset()
     this.requestUpdate()
-    navigate('agents')
   }
 
   private cancel () {
     let form = this.shadowRoot.querySelector('agent-form') as AgentForm
     form.reset()
     this.requestUpdate()
-    navigate('agents')
+    this.dispatchEvent(new CustomEvent('cancel'))
   }
 
   render () {
@@ -72,4 +68,25 @@ export default class AddAgent extends LitElement {
   }
 }
 
-customElements.define('add-agent', AddAgent)
+class ConnectedAddAgent extends connect (uiActor, AddAgent) {
+
+  mapStateToProps(state) {
+    return {
+      labels: state.labels
+    }
+  }
+
+  mapEventsToActions(actions) {
+    return {
+      'add-agent' (agent) {
+        actions.addAgent(agent)
+        return actions.navigate('agents')
+      },
+      'cancel' () {
+        return actions.navigate('agents')
+      }
+    }
+  }
+}
+
+customElements.define('add-agent', ConnectedAddAgent)

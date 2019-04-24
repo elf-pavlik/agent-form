@@ -1,8 +1,10 @@
 import { LitElement, html, property } from 'lit-element'
 import '@material/mwc-button'
 
-import { navigate, selectAgent } from '../actions'
 import { Agent } from '../interfaces'
+
+import connect from '../connectMixin'
+import { uiActor } from '../bootstrap'
 
 export default class ListAgents extends LitElement {
   @property({ type: Object })
@@ -11,21 +13,10 @@ export default class ListAgents extends LitElement {
   @property({ type: Array })
   agents :Agent[]
 
-  _stateChanged (state) {
-    this.labels = state.labels
-    this.agents = state.agents
-  }
-
-  private select (agent) {
-    selectAgent(agent)
-    navigate('add-transaction')
-  }
-
   private listItemTemplate (agent) {
-    const select = this.select.bind(this)
     return html`
       <li
-        @click=${_ => select(agent)}
+        @click=${_ => this.dispatchEvent(new CustomEvent('select-agent', { detail: agent }))}
       >${agent.name}</li>
     `
   }
@@ -41,7 +32,7 @@ export default class ListAgents extends LitElement {
       <mwc-button
         unelevated
         icon="add"
-        @click=${_ => navigate('add-agent')}
+        @click=${_ => this.dispatchEvent(new CustomEvent('add-agent'))}
       >${labels['add agent']}</mwc-button>
       <ul>
         ${agents.map(listItemTemplate.bind(this))}
@@ -50,4 +41,26 @@ export default class ListAgents extends LitElement {
   }
 }
 
-customElements.define('list-agents', ListAgents)
+class ConnectedListAgents extends connect (uiActor, ListAgents) {
+
+  mapStateToProps(state) {
+    return {
+      labels: state.labels,
+      agents: state.agents
+    }
+  }
+
+  mapEventsToActions(actions) {
+    return {
+      'select-agent' (detail) {
+        actions.selectAgent(detail)
+        return actions.navigate('add-transaction')
+      },
+      'add-agent' () {
+        return actions.navigate('add-agent')
+      }
+    }
+  }
+}
+
+customElements.define('list-agents', ConnectedListAgents)
