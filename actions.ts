@@ -1,5 +1,3 @@
-// import { store } from './store'
-
 import { lookup } from 'actor-helpers/lib/actor/Actor'
 
 import { Agent, Transaction, Flow, ExchangeRate } from './interfaces'

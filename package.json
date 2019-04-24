@@ -8,6 +8,12 @@
     "start": "webpack-dev-server"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.11",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
     "standard": "^12.0.1",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.3",
