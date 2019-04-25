@@ -5,15 +5,21 @@
   "license": "Unlicense",
   "private": false,
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "test": "jest --no-cache"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/expect-puppeteer": "^3.3.1",
     "@types/jest": "^24.0.11",
+    "@types/jest-environment-puppeteer": "^4.0.0",
+    "@types/puppeteer": "^1.12.3",
     "babel-jest": "^24.7.1",
     "jest": "^24.7.1",
+    "jest-puppeteer": "^4.1.1",
+    "puppeteer": "^1.14.0",
     "standard": "^12.0.1",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.3",
