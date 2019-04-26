@@ -33,9 +33,9 @@ export default class ListAgents extends LitElement {
         unelevated
         icon="add"
         @click=${_ => this.dispatchEvent(new CustomEvent('add-agent'))}
-      >${labels['add agent']}</mwc-button>
+      >${labels && labels['add agent']}</mwc-button>
       <ul>
-        ${agents.map(listItemTemplate.bind(this))}
+        ${agents && agents.map(listItemTemplate.bind(this))}
       </ul>
     `
   }

@@ -43,7 +43,7 @@ export default class AddFlow extends LitElement {
   }
 
   get transactionAgent () :Agent {
-    return getRef(this.transaction.agent, this.agents)
+    return this.transaction && getRef(this.transaction.agent, this.agents)
   }
 
   get flow () :FlowTemplate {
@@ -58,7 +58,7 @@ export default class AddFlow extends LitElement {
   }
   
   get currencyFlow () :FlowTemplate {
-    return this.transaction.flows.find(flow => flow.category === 'currency')
+    return this.transaction && this.transaction.flows.find(flow => flow.category === 'currency')
   } 
 
   get displayExchangeRate () :boolean {
@@ -99,14 +99,14 @@ export default class AddFlow extends LitElement {
           id="cancel"
           icon="cancel"
           @click=${cancel}
-        >${labels['cancel']}</mwc-button>
+        >${labels && labels['cancel']}</mwc-button>
         <mwc-button
           id="save"
           unelevated
           icon="check"
           ?disabled=${!valid}
           @click=${save}
-        >${labels['save']}</mwc-button>
+        >${labels && labels['save']}</mwc-button>
       </section>
       <section>
         <flow-form

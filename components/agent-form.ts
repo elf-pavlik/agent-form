@@ -44,10 +44,11 @@ export default class AgentForm extends LitElement {
   }
 
   render () {
+    const { labels } = this
     return html`
       <mwc-textfield
         id="name"
-        label=${this.labels.name}
+        label=${labels && labels.name}
         required
         outlined
       ></mwc-textfield>

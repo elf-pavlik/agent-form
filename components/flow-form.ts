@@ -114,43 +114,43 @@ export default class FlowForm extends LitElement {
     const { labels, units, categories, classifications } = this
     return html`
       <section>
-        <mwc-formfield label=${labels.providing}>
+        <mwc-formfield label=${labels && labels.providing}>
           <mwc-radio id="providing" name="role"></mwc-radio>
         </mwc-formfield>
-        <mwc-formfield label=${labels.receiving}>
+        <mwc-formfield label=${labels && labels.receiving}>
           <mwc-radio id="receiving" name="role"></mwc-radio>
         </mwc-formfield>
       </section>
       <section>
         <label>
-          ${labels.category}
+          ${labels && labels.category}
           <select id="category">
-          ${categories.map(category => html`<option value=${category}>${category}</option>`)}
+          ${categories && categories.map(category => html`<option value=${category}>${category}</option>`)}
           </select>
         </label>
         <label>
-          ${labels.classification}
+          ${labels && labels.classification}
           <select id="classification">
-          ${classifications.map(classification => html`<option value=${classification}>${classification}</option>`)}
+          ${classifications && classifications.map(classification => html`<option value=${classification}>${classification}</option>`)}
           </select>
         </label>
       </section>
       </section>
         <mwc-textfield
           id="quantity"
-          label=${labels.quantity}
+          label=${labels && labels.quantity}
           required
           outlined
         ></mwc-textfield>
         <label>
-          ${labels.unit}
+          ${labels && labels.unit}
           <select id="unit">
-          ${units.map(unit => html`<option value=${unit}>${unit}</option>`)}
+          ${units && units.map(unit => html`<option value=${unit}>${unit}</option>`)}
           </select>
         </label>
       </section>
       <section>
-        <label>${labels.note}</label>
+        <label>${labels && labels.note}</label>
         <div>
           <textarea
             id="note"

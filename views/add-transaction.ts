@@ -26,11 +26,11 @@ export default class AddTransaction extends LitElement {
   agents :Agent[]
 
   get transactionAgent () :Agent {
-    return getRef(this.transaction.agent, this.agents)
+    return this.transaction && getRef(this.transaction.agent, this.agents)
   }
 
   get transactionDate () :string {
-    return this.transaction.date ? trimDate(this.transaction.date) : ''
+    return this.transaction && this.transaction.date ? trimDate(this.transaction.date) : ''
   }
 
   firstUpdated () {
@@ -74,22 +74,22 @@ export default class AddTransaction extends LitElement {
           id="cancel"
           icon="cancel"
           @click=${cancel}
-        >${labels['cancel']}</mwc-button>
+        >${labels && labels['cancel']}</mwc-button>
         <mwc-button
           id="save"
           unelevated
           icon="check"
           ?disabled=${!valid}
           @click=${save}
-        >${labels['save']}</mwc-button>
+        >${labels && labels['save']}</mwc-button>
       </section>
     `
     const agentSection = html`
       <section>
-        ${transaction.agent
+        ${transactionAgent
           ? html`
               <span>
-                ${transactionAgent.name}
+                ${transactionAgent && transactionAgent.name}
               </span>
           `
           : html `
@@ -97,7 +97,7 @@ export default class AddTransaction extends LitElement {
                 unelevated
                 icon="list"
                 @click=${_ => this.dispatchEvent(new CustomEvent('select-agent'))}
-              >${labels['select agent']}</mwc-button>
+              >${labels && labels['select agent']}</mwc-button>
           `
         }
       </section>
@@ -109,17 +109,17 @@ export default class AddTransaction extends LitElement {
         <input type="date" value=${transactionDate} />
       </mwc-formfield>
       <section>
-        ${transaction.flows.map(flow => html`<flow-item .user=${user} .flow=${flow}></flow-item`)}
+        ${transaction && transaction.flows.map(flow => html`<flow-item .user=${user} .flow=${flow}></flow-item`)}
         <mwc-button
           unelevated
           icon="add"
           @click=${_ => this.dispatchEvent(new CustomEvent('add-flow'))}
-        >${labels['add flow']}</mwc-button>
+        >${labels && labels['add flow']}</mwc-button>
       </section>
       <section>
-        <label>${labels.note}</label>
+        <label>${labels && labels.note}</label>
         <div>
-          <textarea value=${transaction.note}></textarea>
+          <textarea value=${transaction && transaction.note}></textarea>
         </div>
       </section>
     `

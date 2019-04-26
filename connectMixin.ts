@@ -30,7 +30,6 @@ export default (uiActor, superClass) => {
         update(uiActor.state)
       }
     }
-  
   }
 
 }

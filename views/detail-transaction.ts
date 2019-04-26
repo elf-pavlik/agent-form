@@ -50,13 +50,13 @@ export default class DetailTransaction extends LitElement {
           id="back"
           icon="navigate_before"
           @click=${back}
-        >${labels['back']}</mwc-button>
+        >${labels && labels['back']}</mwc-button>
         <mwc-button
           outlined
           id="edit"
           icon="create"
           @click=${edit}
-        >${labels['edit']}</mwc-button>
+        >${labels && labels['edit']}</mwc-button>
       </section>
     `
     const agentSection = html`

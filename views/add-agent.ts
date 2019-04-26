@@ -50,14 +50,14 @@ export default class AddAgent extends LitElement {
           id="cancel"
           icon="cancel"
           @click=${cancel}
-        >${labels['cancel']}</mwc-button>
+        >${labels && labels['cancel']}</mwc-button>
         <mwc-button
           id="save"
           unelevated
           icon="check"
           ?disabled=${!valid}
           @click=${save}
-        >${labels['save']}</mwc-button>
+        >${labels && labels['save']}</mwc-button>
       </section>
       <section>
         <agent-form
